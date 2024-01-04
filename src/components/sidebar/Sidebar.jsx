@@ -22,7 +22,7 @@ const Sidebar = () => {
       <div className="top">
         <span className="logo">
           <Link className="logo-link" to="/">
-            Admin
+            Booking App
           </Link>
         </span>
       </div>
