@@ -43,16 +43,14 @@ const Login = () => {
           placeholder="username"
           id="username"
           // onChange={handleChange}
-          className="lInput"
         />
         <input
           type="password"
           placeholder="password"
           id="password"
           // onChange={handleChange}
-          className="lInput"
         />
-        <button className="lButton">Login</button>
+        <button>Login</button>
         {/* {error && <span className="err">{error.message}</span>} */}
       </div>
     </div>
