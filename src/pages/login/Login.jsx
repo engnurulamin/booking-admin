@@ -23,12 +23,18 @@ const Login = () => {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post(
-        // "http://localhost:8800/api/auth/login",
+        "http://localhost:8800/api/auth/login",
         credentials
       );
-      console.log("res", res);
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-      navigate("/");
+      if (res.data.isAdmin) {
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+        navigate("/");
+      } else {
+        dispatch({
+          type: "LOGIN_FAIL",
+          payload: { message: "You are not allowed" },
+        });
+      }
     } catch (err) {
       console.error("Status code:", err.response?.status);
       dispatch({ type: "LOGIN_FAIL", payload: err.response?.data });
