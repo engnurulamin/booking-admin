@@ -56,8 +56,10 @@ const Login = () => {
           id="password"
           onChange={handleChange}
         />
-        <button>Login</button>
-        {error && <span className="err">{error.message}</span>}
+        <button disabled={loading} onClick={handleClick}>
+          Login
+        </button>
+        {error && <span className="error">{error.message}</span>}
       </div>
     </div>
   );
