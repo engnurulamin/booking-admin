@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import List from "./pages/list/List";
@@ -8,16 +8,31 @@ import { productInputs, userInputs } from "./sources/formsource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/DarkModeContext.jsx";
+import { AuthContext } from "./context/AuthContext.jsx";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
+  const ProtectedRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+    if (!user) {
+      return <Navigate to="/login" />;
+    }
+    return children;
+  };
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
             <Route path="users">
               <Route index element={<List />} />
               <Route path=":userId" element={<Single />} />
