@@ -3,12 +3,15 @@ import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../sources/dtsource";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import useFetch from "../../hooks/useFetch";
 
 const DataTable = () => {
-  const [data, setData] = useState(userRows);
+  const { data, loading, error } = useFetch("http://localhost:8800/api/users");
+  console.log(data);
+  // const [data, setData] = useState(userRows);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id != id));
+    // setData(data.filter((item) => item.id != id));
   };
   const actionColumn = [
     {
@@ -55,6 +58,7 @@ const DataTable = () => {
         }}
         pageSizeOptions={[5, 10]}
         checkboxSelection
+        getRowId={(row) => row._id}
       />
     </div>
   );
