@@ -9,6 +9,7 @@ import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/DarkModeContext.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
+import { hotelColumns, userColumns } from "./sources/dtsource.jsx";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -38,7 +39,7 @@ function App() {
                 index
                 element={
                   <ProtectedRoute>
-                    <List />
+                    <List columns={userColumns} />
                   </ProtectedRoute>
                 }
               />
@@ -59,8 +60,15 @@ function App() {
                 }
               />
             </Route>
-            <Route path="products">
-              <Route index element={<List />} />
+            <Route path="hotels">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <List columns={hotelColumns} />
+                  </ProtectedRoute>
+                }
+              />
               <Route path=":productId" element={<Single />} />
               <Route
                 path="new"
