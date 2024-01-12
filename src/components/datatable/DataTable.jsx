@@ -1,12 +1,12 @@
 import "./dataTable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../sources/dtsource";
+// import { userColumns, userRows } from "../../sources/dtsource";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
-const DataTable = () => {
+const DataTable = ({ columns }) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
   const [list, setList] = useState([]);
@@ -62,7 +62,7 @@ const DataTable = () => {
       <DataGrid
         className="data-grid"
         rows={list}
-        columns={userColumns.concat(actionColumn)}
+        columns={columns.concat(actionColumn)}
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 9 },
