@@ -50,13 +50,13 @@ const DataTable = ({ columns }) => {
   return (
     <div className="data-table">
       <div className="data-table-title">
-        Add New User
+        Add New {path.substr(0, path.length - 1)}
         <Link
           to="/users/new"
           className="link"
           style={{ textDecoration: "none" }}
         >
-          Add New
+          Add {path.substr(0, path.length - 1)}
         </Link>
       </div>
       <DataGrid
