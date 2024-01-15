@@ -40,8 +40,11 @@
         padding: 5px;
         cursor: pointer;
 
-        &:hover {
+        &.is-active {
           background-color: #ece9ff;
+        }
+        &:hover {
+          background-color: #eee1f7;
         }
 
         .icon {
