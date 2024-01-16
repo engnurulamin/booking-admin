@@ -9,7 +9,6 @@ const New = ({ inputs, title }) => {
   const [info, setInfo] = useState({});
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-    console.log("first");
   };
 
   const handleClick = async (e) => {
