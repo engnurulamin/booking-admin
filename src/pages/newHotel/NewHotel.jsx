@@ -7,11 +7,19 @@ import useFetch from "../../hooks/useFetch";
 const NewHotel = ({ inputs, title }) => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
+  const [rooms, setRooms] = useState([]);
   const { data, loading, error } = useFetch("http://localhost:8800/api/rooms");
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-  const handleSelect = () => {};
+  const handleSelect = (e) => {
+    const value = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setRooms(value);
+    console.log(value);
+  };
   return (
     <div className="new-hotel">
       <Sidebar />
@@ -73,12 +81,14 @@ const NewHotel = ({ inputs, title }) => {
               </div>
               <div className="select-rooms">
                 <label>Rooms</label>
-                <select onChange={handleSelect} multiple id="rooms">
+                <select id="rooms" multiple onChange={handleSelect}>
                   {loading
                     ? "Loading"
                     : data &&
                       data.map((room) => (
-                        <option value={room._id}>{room.title}</option>
+                        <option key={room._id} value={room._id}>
+                          {room.title}
+                        </option>
                       ))}
                 </select>
               </div>
