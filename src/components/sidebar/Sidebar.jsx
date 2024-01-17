@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -19,8 +19,15 @@ const Sidebar = () => {
   const [active_tab, setActiveTab] = useState(1);
   const { dispatch } = useContext(DarkModeContext);
 
+  useEffect(() => {
+    const storedActiveTab = localStorage.getItem("active_tab");
+    if (storedActiveTab) {
+      setActiveTab(parseInt(storedActiveTab, 10));
+    }
+  }, []);
   function activeTab(index) {
     setActiveTab(index);
+    localStorage.setItem("active_tab", index);
     console.log(active_tab);
   }
   return (
