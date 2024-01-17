@@ -3,12 +3,15 @@ import React, { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import useFetch from "../../hooks/useFetch";
 const NewHotel = ({ inputs, title }) => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
+  const { data, loading, error } = useFetch("http://localhost:8800/api/rooms");
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
+  const handleSelect = () => {};
   return (
     <div className="new-hotel">
       <Sidebar />
@@ -53,6 +56,32 @@ const NewHotel = ({ inputs, title }) => {
                   />
                 </div>
               ))}
+              <div className="form-input">
+                <label>Featured</label>
+                <select
+                  className="featured"
+                  onChange={handleChange}
+                  id="featured"
+                >
+                  <option className="f-option" value={false}>
+                    No
+                  </option>
+                  <option className="f-option" value={true}>
+                    Yes
+                  </option>
+                </select>
+              </div>
+              <div className="select-rooms">
+                <label>Rooms</label>
+                <select onChange={handleSelect} multiple id="rooms">
+                  {loading
+                    ? "Loading"
+                    : data &&
+                      data.map((room) => (
+                        <option value={room._id}>{room.title}</option>
+                      ))}
+                </select>
+              </div>
               <button>Send</button>
             </form>
           </div>
