@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-const NewHotel = () => {
-  const [file, setFile] = useState("");
+const NewHotel = ({ inputs, title }) => {
+  const [files, setFiles] = useState("");
+  const [info, setInfo] = useState({});
+  const handleChange = (e) => {
+    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
   return (
     <div className="new-hotel">
       <Sidebar />
@@ -17,8 +21,8 @@ const NewHotel = () => {
           <div className="left">
             <img
               src={
-                file
-                  ? URL.createObjectURL(file)
+                files
+                  ? URL.createObjectURL(files[0])
                   : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
               alt=""
@@ -33,14 +37,20 @@ const NewHotel = () => {
                 <input
                   type="file"
                   id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
+                  multiple
+                  onChange={(e) => setFiles(e.target.files)}
                   style={{ display: "none" }}
                 />
               </div>
               {inputs.map((input) => (
                 <div className="form-input" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    id={input.id}
+                    onChange={handleChange}
+                  />
                 </div>
               ))}
               <button>Send</button>
