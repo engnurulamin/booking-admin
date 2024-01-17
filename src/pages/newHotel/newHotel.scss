@@ -39,7 +39,12 @@
             width: 100%;
             select {
               width: 100%;
-              padding: 20px;
+              padding: 10px;
+              border: 1px solid gray;
+              outline: none;
+              option {
+                font-size: 14px;
+              }
             }
           }
           .form-input {
@@ -63,7 +68,6 @@
             .featured {
               width: 100%;
               border: none;
-              outline: none;
               border-bottom: 1px solid gray;
               box-shadow: none;
               .f-option {
