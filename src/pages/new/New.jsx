@@ -31,7 +31,7 @@ const New = ({ inputs, title }) => {
         img: url,
       };
       await axios.post("http://localhost:8800/api/auth/register", newUser);
-      navigate("/hotels");
+      navigate("/users");
     } catch (error) {
       console.log(error);
     }

@@ -49,7 +49,7 @@ const NewHotel = ({ inputs, title }) => {
       };
       const hotelApiUrl = "http://localhost:8800/api/hotels";
       await axios.post(hotelApiUrl, newhotel);
-      navigate("/users");
+      navigate("/hotels");
     } catch (error) {
       console.log(error);
     }
