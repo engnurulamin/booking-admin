@@ -1,14 +1,17 @@
 import "./newHotel.scss";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import useFetch from "../../hooks/useFetch";
+import axios from "axios";
 const NewHotel = ({ inputs, title }) => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
   const [rooms, setRooms] = useState([]);
   const { data, loading, error } = useFetch("http://localhost:8800/api/rooms");
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
@@ -18,7 +21,36 @@ const NewHotel = ({ inputs, title }) => {
       (option) => option.value
     );
     setRooms(value);
-    console.log(value);
+  };
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const list = await Promise.all(
+        Object.values(files).map(async (file) => {
+          const data = new FormData();
+          data.append("file", file);
+          data.append("upload_preset", "upload");
+          const uploadRes = await axios.post(
+            "https://api.cloudinary.com/v1_1/dug8kyeb5/image/upload",
+            data
+          );
+
+          const { url } = uploadRes.data;
+          return url;
+        })
+      );
+
+      const newhotel = {
+        ...info,
+        rooms,
+        photos: list,
+      };
+      const hotelApiUrl = "http://localhost:8800/api/hotels";
+      await axios.post(hotelApiUrl, newhotel);
+      navigate("/hotels");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="new-hotel">
@@ -92,7 +124,7 @@ const NewHotel = ({ inputs, title }) => {
                       ))}
                 </select>
               </div>
-              <button>Send</button>
+              <button onClick={handleClick}>Send</button>
             </form>
           </div>
         </div>
