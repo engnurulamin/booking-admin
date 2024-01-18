@@ -4,13 +4,19 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
-import { hotelInputs, productInputs, userInputs } from "./sources/formsource";
+import {
+  hotelInputs,
+  productInputs,
+  roomInputs,
+  userInputs,
+} from "./sources/formsource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/DarkModeContext.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
-import { hotelColumns, userColumns } from "./sources/dtsource.jsx";
+import { hotelColumns, roomColumns, userColumns } from "./sources/dtsource.jsx";
 import NewHotel from "./pages/newHotel/NewHotel.jsx";
+import NewRoom from "./pages/newRoom/NewRoom.jsx";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -76,6 +82,21 @@ function App() {
                 element={
                   <NewHotel inputs={hotelInputs} title="Add New Hotel" />
                 }
+              />
+            </Route>
+            <Route path="rooms">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <List columns={roomColumns} />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path=":roomId" element={<Single />} />
+              <Route
+                path="new"
+                element={<NewRoom inputs={roomInputs} title="Add New Room" />}
               />
             </Route>
           </Route>
