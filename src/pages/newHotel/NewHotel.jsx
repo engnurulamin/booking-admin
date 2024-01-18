@@ -6,12 +6,14 @@ import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
+
 const NewHotel = ({ inputs, title }) => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
   const [rooms, setRooms] = useState([]);
   const { data, loading, error } = useFetch("http://localhost:8800/api/rooms");
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
@@ -47,7 +49,7 @@ const NewHotel = ({ inputs, title }) => {
       };
       const hotelApiUrl = "http://localhost:8800/api/hotels";
       await axios.post(hotelApiUrl, newhotel);
-      navigate("/hotels");
+      navigate("/users");
     } catch (error) {
       console.log(error);
     }
