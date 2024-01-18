@@ -3,8 +3,18 @@ import React, { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-const NewRoom = () => {
-  const [file, setFile] = useState("");
+import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
+
+const NewRoom = ({ inputs, title }) => {
+  const [info, setInfo] = useState({});
+  const [hotelId, sethotelId] = useState(undefined);
+  const { data, loading, error } = useFetch("http://localhost:8800/api/hotels");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
   return (
     <div className="new-room">
       <Sidebar />
@@ -14,35 +24,34 @@ const NewRoom = () => {
           <h1>{title}</h1>
         </div>
         <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
           <div className="right">
             <form>
-              <div className="form-input">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
-                />
-              </div>
               {inputs.map((input) => (
                 <div className="form-input" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input
+                    onChange={handleChange}
+                    id={input.type}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                  />
                 </div>
               ))}
+              <div className="form-input">
+                <label>Choose a hotel</label>
+                <select
+                  name=""
+                  id="hotelId"
+                  onChange={(e) => sethotelId(e.target.value)}
+                >
+                  {loading
+                    ? "Loading"
+                    : data &&
+                      data.map((hotel) => (
+                        <option value={hotel._id}>{hotel.name}</option>
+                      ))}
+                </select>
+              </div>
               <button>Send</button>
             </form>
           </div>
